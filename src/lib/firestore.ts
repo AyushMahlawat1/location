@@ -51,10 +51,20 @@ export async function recordEvent(event: VisitorEvent, sessionId: string): Promi
   await sendNtfy(message);
 }
 
-export async function saveLocationUpdate(update: LocationUpdate): Promise<void> {
-  const locations = getArray<LocationUpdate>('locations');
-  locations.push({ ...update, timestamp: Date.now() });
-  setArray('locations', locations);
+export async function saveLocationUpdate(
+    update: LocationUpdate,
+    sessionId: string
+): Promise<void> {
+
+    const locations = getArray<LocationRecord>('locations');
+
+    locations.push({
+        ...update,
+        timestamp: Date.now(),
+        sessionId
+    });
+
+    setArray('locations', locations);
 }
 export interface LocationRecord {
   latitude: number;
