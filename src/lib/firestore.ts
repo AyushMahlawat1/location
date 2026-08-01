@@ -56,3 +56,10 @@ export async function saveLocationUpdate(update: LocationUpdate): Promise<void> 
   locations.push({ ...update, timestamp: Date.now() });
   setArray('locations', locations);
 }
+export interface LocationRecord {
+  latitude: number;
+  longitude: number;
+  accuracy: number;
+  timestamp: number;
+  sessionId: string;
+}
