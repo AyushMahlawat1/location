@@ -1,0 +1,25 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Events: allow anonymous client writes (session tracking)
+    match /events/{eventId} {
+      allow create: if request.resource.data.keys().hasAll(['event', 'timestamp', 'sessionId'])
+                    && request.resource.data.event is string
+                    && request.resource.data.timestamp is number
+                    && request.resource.data.sessionId is string;
+      allow read, update, delete: if false;
+    }
+
+    // Locations: allow anonymous client writes when sharing location
+    match /locations/{locationId} {
+      allow create: if request.resource.data.keys().hasAll(['latitude', 'longitude', 'accuracy', 'timestamp', 'sessionId'])
+                    && request.resource.data.latitude is number
+                    && request.resource.data.longitude is number
+                    && request.resource.data.accuracy is number
+                    && request.resource.data.timestamp is number
+                    && request.resource.data.sessionId is string;
+      allow read, update, delete: if false;
+    }
+  }
+}
