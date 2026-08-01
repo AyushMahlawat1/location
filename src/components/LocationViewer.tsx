@@ -6,6 +6,7 @@ type LocationRecord = {
   longitude: number;
   accuracy: number;
   timestamp: number;
+  sessionId: string;
 };
 
 export function LocationViewer() {
